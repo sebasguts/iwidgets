@@ -1,0 +1,4 @@
+name = "iwidgets"
+uuid = "f8c71d9a-8120-11e9-3c8b-139a44f6d7e6"
+authors = ["Sebastian Gutsche <gutsche@momo.math.rwth-aachen.de>"]
+version = "0.1.0"
