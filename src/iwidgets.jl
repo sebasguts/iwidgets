@@ -36,18 +36,16 @@ function update_handler(msg)
     if haskey(msg.content["data"], "method") && msg.content["data"]["method"] == "update"
         widget = widget_registry[msg.content["comm_id"]]
         for name in keys( msg.content["data"]["state"] )
-            setfield!(widget,Symbol(name),msg.content["data"]["state"][name])
+            getfield(widget, :properties)[Symbol(name)] = msg.content["data"]["state"][name]
         end
         return true
     end
     return false
 end
 
-function my_callback(x)
 
-    if update_handler(x)
-        return
-    end
+
+function my_callback(x)
 
     comm_id = x.content["comm_id"]
     comm = IJulia.CommManager.comms[comm_id]
@@ -62,6 +60,15 @@ function my_callback(x)
     getfield(widget_registry[comm_id],:properties)[:description] = "bar"
 
     # IJulia.send_ipython(IJulia.publish[],msg_pub(IJulia.execute_msg,"display_data",Dict( "data" => Dict( "text/plain" => comm_id))))
+end
+
+function extend_callback( callback_func )
+    return function( x )
+        if update_handler( x )
+            return
+        end
+        callback_func( x )
+    end
 end
 
 
@@ -127,7 +134,7 @@ function Widget(;kwargs...)
         "jupyter.widget",
         button_id,
         true,
-        my_callback,
+        extend_callback( my_callback ),
         data = comm_data,
         metadata = Dict( "version" => "2.0.0" )
     )
