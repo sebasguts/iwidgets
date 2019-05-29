@@ -2,3 +2,7 @@ name = "iwidgets"
 uuid = "f8c71d9a-8120-11e9-3c8b-139a44f6d7e6"
 authors = ["Sebastian Gutsche <gutsche@momo.math.rwth-aachen.de>"]
 version = "0.1.0"
+
+[deps]
+IJulia = "7073ff75-c697-5162-941a-fcdaad2a7d2a"
+UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
